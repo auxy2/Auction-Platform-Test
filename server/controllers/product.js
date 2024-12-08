@@ -1,6 +1,6 @@
-// server/controllers/product.js
+// // server/controllers/product.js
 const Product = require('../models/Product');
-const Search = require('../utils/libs/search.min');
+// const Search = require('../utils/libs/search.min');
 
 exports.createProduct = async (req, res) => {
   try {

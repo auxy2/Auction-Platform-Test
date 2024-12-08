@@ -69,12 +69,6 @@ const Signup = ({ selectedRole, onClose }) => {
         const errorData = await response.json();
         setError(errorData.error || 'Signup failed.');
         setSuccess(false);
-        console.error(
-          'Signup failed:',
-          errorData,
-          'Message: ',
-          errorData.messgae
-        );
         setAlertOpen(true);
       }
     } catch (error) {

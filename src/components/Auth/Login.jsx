@@ -38,6 +38,14 @@ const Login = ({ selectedRole }) => {
 
     try {
       // Make a request to your backend for authentication
+      // const response = await fetch('http://localhost:9000/api/auth/login', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ ...formData, role: selectedRole }),
+      // });
+
       const response = await fetch('http://localhost:9000/api/auth/login', {
         method: 'POST',
         headers: {
@@ -66,7 +74,7 @@ const Login = ({ selectedRole }) => {
         // Handle authentication failure, show an error message or redirect to an error page
         const errorData = await response.json();
         console.error('Login failed!', errorData);
-        setError(errorData.message || 'Signup failed.');
+        setError(errorData.error || 'Login failed.');
         setAlertOpen(true);
       }
     } catch (error) {

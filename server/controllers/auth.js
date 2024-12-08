@@ -85,7 +85,7 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    if (req.body.role && user.role !== req.body.role) {
+    if (req.body.role && user.role !== role) {
       return res
         .status(401)
         .json({ error: 'Invalid credentials for the selected role' });

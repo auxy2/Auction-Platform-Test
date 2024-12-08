@@ -10,7 +10,7 @@ const authRoutes = require('./server/routers/authRoutes');
 const sellerRoutes = require('./server/routers/sellerRoutes');
 const authMiddleware = require('./server/middleware/auth');
 
-// dotenv.config();
+dotenv.config();
 
 // server/app.js or server.js
 require('dotenv').config({ path: './server/.env' });
@@ -73,5 +73,6 @@ io.on('connection', (socket) => {
     console.log('Socket disconnected');
   });
 });
+
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
