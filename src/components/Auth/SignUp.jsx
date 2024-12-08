@@ -61,9 +61,9 @@ const Signup = ({ selectedRole, onClose }) => {
       } else {
         // Handle registration failure, show an error message or redirect to an error page
         const errorData = await response.json();
-        setError(errorData.message || 'Signup failed.');
+        setError(errorData.error || 'Signup failed.');
         setSuccess(false)
-        console.error('Signup failed:', errorData);
+        console.error('Signup failed:', errorData, "Message: ", errorData.messgae);
         setAlertOpen(true);
       }
     } catch (error) {

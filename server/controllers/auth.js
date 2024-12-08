@@ -20,8 +20,13 @@ exports.signup = async (req, res) => {
 
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    if (existingUser && existingUser.role === role) {
+      // Email exists with the same role
       return res.status(400).json({ error: `User with this email already exists for role ${role}` });
+    } else if (existingUser && existingUser.role !== role) {
+      // Email exists with a different role - log this scenario
+      console.log(`Email ${email} already exists for a different role: ${existingUser.role}`);
+      return res.status(400).json({ error: `Email  already exists for a different role: ${existingUser.role}` });
     }
 
     // Hash the password
@@ -42,7 +47,7 @@ exports.signup = async (req, res) => {
     console.log('getting the role',role)
   } catch (error) {
     console.error('Error signing up:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(400).json({ error: 'Internal Server Error' });
   }
 };
 
