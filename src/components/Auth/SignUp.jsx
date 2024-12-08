@@ -23,6 +23,7 @@ const Signup = ({ selectedRole, onClose }) => {
   const [alertOpen, setAlertOpen] = useState(false);
 
   const handleAlertClose = () => {
+    setError('');
     setAlertOpen(false);
   };
 
@@ -52,6 +53,7 @@ const Signup = ({ selectedRole, onClose }) => {
         const { role } = responseData;
         console.log("responseOk", responseData)
         signup(role);
+        setError(''); // Clear any previous error
         setSuccess(true);
         // onClose();
 
@@ -60,10 +62,12 @@ const Signup = ({ selectedRole, onClose }) => {
         // Handle registration failure, show an error message or redirect to an error page
         const errorData = await response.json();
         setError(errorData.message || 'Signup failed.');
+        setSuccess(false)
         console.error('Signup failed:', errorData);
         setAlertOpen(true);
       }
     } catch (error) {
+      setSuccess(false);
       setError('An unexpected error occurred.');
       console.error('Error during signup:', error);
       setAlertOpen(true);
@@ -125,7 +129,7 @@ const Signup = ({ selectedRole, onClose }) => {
 
 
       {error && (
-        <Alert severity="error" onClose={handleAlertClose} open={alertOpen}>
+        <Alert severity="error" onClose={handleAlertClose}>
           <AlertTitle>Error</AlertTitle>
           {error}
         </Alert>

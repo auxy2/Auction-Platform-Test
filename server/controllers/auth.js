@@ -19,9 +19,9 @@ exports.signup = async (req, res) => {
     console.log('Signup data:', { username, email, role });
 
     // Check if the user already exists
-    const existingUser = await User.findOne({ role, email});
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ error: 'User with this email already exists for role ${role}' });
+      return res.status(400).json({ error: `User with this email already exists for role ${role}` });
     }
 
     // Hash the password
