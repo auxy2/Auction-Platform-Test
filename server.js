@@ -16,11 +16,9 @@ const authMiddleware = require('./server/middleware/auth');
 require('dotenv').config({ path: './server/.env' });
 
 
-console.log(process.env);
 const app = express();
 const server = http.createServer(app);
 
-console.log("Modules imported");
 // Connect to MongoDB
 connectDB();
 
@@ -43,7 +41,6 @@ app.use(cors(corsOptions))
 // Serve static files from the 'uploads' directory
 app.use('/uploads', express.static('uploads'));
 
-console.log("Middlewares applied.");
 // Routes
 
 app.get("/", (req, res) => {
@@ -53,7 +50,6 @@ app.get("/", (req, res) => {
   });
 });
 
-console.log("Routes configured.");
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
@@ -71,7 +67,6 @@ const io = socketIO(server, {
 });
 
 io.on('connection', (socket) => {
-    console.log('New socket connection');
   
     // Listen for incoming messages and broadcast them to other clients
     socket.on('sendMessage', (message) => {
