@@ -1,9 +1,8 @@
-import React,{useEffect} from 'react'
+import React, { useEffect } from 'react';
 import Navbar from '../Buyer/Navbar';
 import CardDisplay from '../Buyer/Content';
 
 function AuctionInterface() {
-
   useEffect(() => {
     // Set the data-route attribute to 'auction' on component mount
     document.body.setAttribute('data-route', 'auction-platform');
@@ -14,11 +13,12 @@ function AuctionInterface() {
     };
   }, []);
 
-  return (<>
-  <Navbar/>
-  <CardDisplay/>
-  </>
-  )
+  return (
+    <>
+      <Navbar />
+      <CardDisplay />
+    </>
+  );
 }
 
-export default AuctionInterface
+export default AuctionInterface;

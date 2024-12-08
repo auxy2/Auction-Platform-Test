@@ -15,7 +15,9 @@ exports.sendMessage = async (req, res) => {
 
     await chat.save();
 
-    res.status(200).json({ message: 'Message sent successfully', sentMessage: chat });
+    res
+      .status(200)
+      .json({ message: 'Message sent successfully', sentMessage: chat });
   } catch (error) {
     console.error('Error sending message:', error);
     res.status(500).json({ message: 'Internal Server Error' });

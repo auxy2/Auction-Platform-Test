@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@mui/material';
 import { useParams } from 'react-router';
 
 const CheckBidPage = () => {
   const { productId } = useParams();
-  console.log(productId)
+  console.log(productId);
   const [bidData, setBidData] = useState([]);
 
   useEffect(() => {
@@ -20,10 +28,12 @@ const CheckBidPage = () => {
   useEffect(() => {
     const fetchBidHistory = async () => {
       try {
-        const response = await fetch(`http://localhost:9000/api/products/${productId}/bid-history`); // Replace with your API endpoint
+        const response = await fetch(
+          `http://localhost:9000/api/products/${productId}/bid-history`
+        ); // Replace with your API endpoint
         if (response.ok) {
           const data = await response.json();
-          console.log(data)
+          console.log(data);
           setBidData(data);
         } else {
           console.error('Failed to fetch bid history data');

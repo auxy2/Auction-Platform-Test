@@ -1,12 +1,18 @@
 // Login.js
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Box, Alert, AlertTitle } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Alert,
+  AlertTitle,
+} from '@mui/material';
 import { useAuth } from '../../AuthContext';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-const Login = ( {selectedRole}) => {
-
+const Login = ({ selectedRole }) => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -39,8 +45,8 @@ const Login = ( {selectedRole}) => {
         },
         body: JSON.stringify({ ...formData, role: selectedRole }),
       });
-      
-      console.log('role is', selectedRole)
+
+      console.log('role is', selectedRole);
       if (response.ok) {
         // login();
         // Authentication successful, close the dialog
@@ -48,7 +54,7 @@ const Login = ( {selectedRole}) => {
         login(token, userId, role);
         // document.cookie = `authToken=${token}; Secure; HttpOnly; SameSite=Strict; Path=/`;
         Cookies.set('token', token, { expires: 7, secure: true });
-        console.log('tokensaved', token)
+        console.log('tokensaved', token);
 
         console.log('Login successful!');
         if (role === 'buyer') {
@@ -69,8 +75,11 @@ const Login = ( {selectedRole}) => {
     }
   };
 
-  return (<Box sx={{padding:5, textAlign:'center'}}>
-      <Typography variant='h2' color='black'>Login</Typography>
+  return (
+    <Box sx={{ padding: 5, textAlign: 'center' }}>
+      <Typography variant="h2" color="black">
+        Login
+      </Typography>
       <form onSubmit={handleSubmit} style={{ width: '100%' }}>
         <TextField
           variant="outlined"
@@ -98,15 +107,20 @@ const Login = ( {selectedRole}) => {
           value={password}
           onChange={handleChange}
         />
-        <Button type="submit" size='large' variant="contained" sx={{ mt: 3, mb: 2 }}>
+        <Button
+          type="submit"
+          size="large"
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
           Login
         </Button>
         {error && (
           <Alert severity="error" onClose={handleAlertClose} open={alertOpen}>
-              <AlertTitle>Error</AlertTitle>
-              {error}
+            <AlertTitle>Error</AlertTitle>
+            {error}
           </Alert>
-          )}
+        )}
       </form>
     </Box>
   );

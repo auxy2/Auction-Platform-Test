@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import Navbar from '../Seller/Navbar';
 import SellerPage from '../Seller/SellerPage';
 
-
 function SellerInterface() {
-
   useEffect(() => {
     // Set the data-route attribute to 'auction' on component mount
     document.body.setAttribute('data-route', 'auction');
@@ -14,11 +12,12 @@ function SellerInterface() {
       document.body.removeAttribute('data-route');
     };
   }, []);
-  return (<>
-  <Navbar/>
-  <SellerPage/>
-  </>
-  )
+  return (
+    <>
+      <Navbar />
+      <SellerPage />
+    </>
+  );
 }
 
-export default SellerInterface
+export default SellerInterface;

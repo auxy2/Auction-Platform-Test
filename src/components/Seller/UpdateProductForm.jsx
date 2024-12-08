@@ -1,6 +1,13 @@
 // UpdateProductForm.jsx
 import React, { useState } from 'react';
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import {
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@mui/material';
 
 const UpdateProductForm = ({ open, handleClose, product, updateProduct }) => {
   const [updatedProduct, setUpdatedProduct] = useState({

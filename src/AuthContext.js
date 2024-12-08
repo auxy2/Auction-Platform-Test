@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [userId, setUserId] = useState(null);
   const [token, setToken] = useState(null);
 
-
   const login = (token, userId, role) => {
     // Your login logic
     setIsLoggedIn(true);
@@ -33,7 +32,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, token, userId, userRole, login, logout, signup }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, token, userId, userRole, login, logout, signup }}
+    >
       {children}
     </AuthContext.Provider>
   );

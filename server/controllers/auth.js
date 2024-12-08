@@ -8,7 +8,7 @@ exports.signup = async (req, res) => {
   try {
     // Validate request data
     const errors = validationResult(req);
-    
+
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -22,11 +22,21 @@ exports.signup = async (req, res) => {
     const existingUser = await User.findOne({ email });
     if (existingUser && existingUser.role === role) {
       // Email exists with the same role
-      return res.status(400).json({ error: `User with this email already exists for role ${role}` });
+      return res
+        .status(400)
+        .json({
+          error: `User with this email already exists for role ${role}`,
+        });
     } else if (existingUser && existingUser.role !== role) {
       // Email exists with a different role - log this scenario
-      console.log(`Email ${email} already exists for a different role: ${existingUser.role}`);
-      return res.status(400).json({ error: `Email  already exists for a different role: ${existingUser.role}` });
+      console.log(
+        `Email ${email} already exists for a different role: ${existingUser.role}`
+      );
+      return res
+        .status(400)
+        .json({
+          error: `Email  already exists for a different role: ${existingUser.role}`,
+        });
     }
 
     // Hash the password
@@ -44,7 +54,7 @@ exports.signup = async (req, res) => {
     await newUser.save();
 
     res.status(201).json({ message: 'User created successfully', role });
-    console.log('getting the role',role)
+    console.log('getting the role', role);
   } catch (error) {
     console.error('Error signing up:', error);
     res.status(400).json({ error: 'Internal Server Error' });
@@ -56,13 +66,13 @@ exports.login = async (req, res) => {
     // Validate request data
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
-    
+
     // Extract user data from request body
     const { email, password, role } = req.body;
-    
-    console.log('user role is:', role)
+
+    console.log('user role is:', role);
     // Check if the user exists
     const user = await User.findOne({ email });
     if (!user) {
@@ -76,14 +86,20 @@ exports.login = async (req, res) => {
     }
 
     if (req.body.role && user.role !== req.body.role) {
-        return res.status(401).json({ error: 'Invalid credentials for the selected role' });
+      return res
+        .status(401)
+        .json({ error: 'Invalid credentials for the selected role' });
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
-    });
-    console.log(user.role)
+    const token = jwt.sign(
+      { userId: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: '1h',
+      }
+    );
+    console.log(user.role);
 
     res.json({ token, userId: user._id, role: user.role });
   } catch (error) {

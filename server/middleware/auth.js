@@ -5,15 +5,18 @@ const User = require('../models/User');
 const authenticateSocket = async (socket, next) => {
   try {
     //   console.log('Socket handshake.auth:', socket.handshake.auth);
-      const token = socket.handshake.auth.token;
+    const token = socket.handshake.auth.token;
 
     if (!token) {
       throw new Error('Token not provided');
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('token is ', decoded)
-    const user = await User.findOne({ _id: decoded._id, 'tokens.token': token });
+    console.log('token is ', decoded);
+    const user = await User.findOne({
+      _id: decoded._id,
+      'tokens.token': token,
+    });
 
     if (!user) {
       throw new Error('User not found');

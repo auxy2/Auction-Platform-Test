@@ -1,18 +1,21 @@
-import { Box, Container, InputAdornment } from '@mui/material'
-import React, { useEffect, useRef, useState} from 'react'
-import { CardContent } from '@mui/material'
+import { Box, Container, InputAdornment } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
+import { CardContent } from '@mui/material';
 import { styled } from '@mui/system';
 import { useSpring, animated } from 'react-spring';
-import { Button, TextField, FormControl, InputLabel, Input } from '@mui/material';
-
+import {
+  Button,
+  TextField,
+  FormControl,
+  InputLabel,
+  Input,
+} from '@mui/material';
 
 const AnimatedCardContent = styled(animated(CardContent))({
   overflow: 'hidden',
 });
 
-
 function ProductForm() {
-
   useEffect(() => {
     // Set the data-route attribute to 'auction' on component mount
     document.body.setAttribute('data-route', 'product-form');
@@ -35,7 +38,6 @@ function ProductForm() {
   const fileInputRef = useRef(null);
   const imagePreviewRef = useRef();
 
-  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProductData((prevData) => ({ ...prevData, [name]: value }));
@@ -71,9 +73,8 @@ function ProductForm() {
     e.preventDefault();
     console.log('Data to be submitted:', productData);
     console.log('Making API call');
-  
-    try {
 
+    try {
       const formData = new FormData();
       formData.append('image', productData.image);
       formData.append('name', productData.name);
@@ -81,20 +82,23 @@ function ProductForm() {
       formData.append('startingBid', productData.startingBid);
       formData.append('paymentMethod', productData.paymentMethod);
       formData.append('minBidAmount', productData.minBidAmount);
-      
-      const response = await fetch('http://localhost:9000/api/products/create', {
-        method: 'POST',
-        body:formData,
-        credentials: 'include',
-        mode: 'cors',
-      });
-  
+
+      const response = await fetch(
+        'http://localhost:9000/api/products/create',
+        {
+          method: 'POST',
+          body: formData,
+          credentials: 'include',
+          mode: 'cors',
+        }
+      );
+
       if (!response.ok) {
         const errorData = await response.json();
         console.error('Error:', errorData);
         return;
       }
-  
+
       const data = await response.json();
       console.log('Product created:', data);
 
@@ -106,16 +110,15 @@ function ProductForm() {
         paymentMethod: '',
         minBidAmount: '',
       });
-  
     } catch (error) {
       console.error('Error creating product:', error);
       if (error instanceof TypeError && error.message.includes('JSON')) {
-        console.error('The server did not return a valid JSON response. This may be due to a server error or misconfiguration.');
+        console.error(
+          'The server did not return a valid JSON response. This may be due to a server error or misconfiguration.'
+        );
       }
     }
   };
-  
-
 
   const props = useSpring({
     from: { opacity: 0, transform: 'translateY(50px)' },
@@ -124,43 +127,107 @@ function ProductForm() {
   });
 
   return (
-    <Container fixed
-      maxWidth='xl' 
-      sx ={{
-        backgroundColor:'rgba(255,255,255,0.7)',
-        height:'90vh',
-        mt:5,
-        border:'2px purple solid',
-        borderRadius:'10px',
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'center',
-        overflowY:'auto',
-      }}>
-        <animated.div style={props}>
-          <AnimatedCardContent>
-            <FormControl encType="multipart/form-data" variant='standard' onSubmit={handleSubmit}>
-              <Box mb={2} sx ={{marginX:5, border:'1px grey solid', height:'200px', textAlign:'center'}}>
-                <img
-                  ref={imagePreviewRef}
-                  alt="Preview"
-                  style={{ maxWidth: '100%', maxHeight: '200px'}}
-                />
-              </Box>
-              <Input id="image" type="file" accept=".jpg, .png" ref={fileInputRef} onChange={handleFileChange}  />
-              <InputLabel htmlFor="image"></InputLabel>
-            <TextField sx = {{marginTop:2}} variant='filled' label="Name of Product" name="name" value={productData.name} onChange={handleChange} />
-            <TextField sx = {{marginTop:2}} variant='filled' label="Description" name="description" value={productData.description} onChange={handleChange} multiline/>
-            <TextField sx = {{marginTop:2}} variant='filled' label="Starting Bid Amount" name="startingBid" value={productData.startingBid} onChange={handleChange} InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>,}}/>
-            <TextField sx = {{marginTop:2}} variant='filled' label="Minimum Bid Amount" name="minBidAmount" value={productData.minBidAmount} onChange={handleChange} InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>,}}/>
-            <Button onClick={handleSubmit} type="submit" variant="contained" sx = {{ marginTop:5}}>
+    <Container
+      fixed
+      maxWidth="xl"
+      sx={{
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        height: '90vh',
+        mt: 5,
+        border: '2px purple solid',
+        borderRadius: '10px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflowY: 'auto',
+      }}
+    >
+      <animated.div style={props}>
+        <AnimatedCardContent>
+          <FormControl
+            encType="multipart/form-data"
+            variant="standard"
+            onSubmit={handleSubmit}
+          >
+            <Box
+              mb={2}
+              sx={{
+                marginX: 5,
+                border: '1px grey solid',
+                height: '200px',
+                textAlign: 'center',
+              }}
+            >
+              <img
+                ref={imagePreviewRef}
+                alt="Preview"
+                style={{ maxWidth: '100%', maxHeight: '200px' }}
+              />
+            </Box>
+            <Input
+              id="image"
+              type="file"
+              accept=".jpg, .png"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+            />
+            <InputLabel htmlFor="image"></InputLabel>
+            <TextField
+              sx={{ marginTop: 2 }}
+              variant="filled"
+              label="Name of Product"
+              name="name"
+              value={productData.name}
+              onChange={handleChange}
+            />
+            <TextField
+              sx={{ marginTop: 2 }}
+              variant="filled"
+              label="Description"
+              name="description"
+              value={productData.description}
+              onChange={handleChange}
+              multiline
+            />
+            <TextField
+              sx={{ marginTop: 2 }}
+              variant="filled"
+              label="Starting Bid Amount"
+              name="startingBid"
+              value={productData.startingBid}
+              onChange={handleChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">$</InputAdornment>
+                ),
+              }}
+            />
+            <TextField
+              sx={{ marginTop: 2 }}
+              variant="filled"
+              label="Minimum Bid Amount"
+              name="minBidAmount"
+              value={productData.minBidAmount}
+              onChange={handleChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">$</InputAdornment>
+                ),
+              }}
+            />
+            <Button
+              onClick={handleSubmit}
+              type="submit"
+              variant="contained"
+              sx={{ marginTop: 5 }}
+            >
               Submit
             </Button>
-            </FormControl>
-          </AnimatedCardContent>
-        </animated.div>
-      </Container>
-  )
+          </FormControl>
+        </AnimatedCardContent>
+      </animated.div>
+    </Container>
+  );
 }
 
-export default ProductForm
+export default ProductForm;

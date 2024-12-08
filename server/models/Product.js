@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema({
   description: { type: String, required: true },
   startingBid: { type: Number, required: true },
   minBidAmount: { type: Number, required: true },
-  imageUrl: {type: String, required: true,},
+  imageUrl: { type: String, required: true },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -20,7 +20,6 @@ const productSchema = new mongoose.Schema({
 
   bidHistory: [bidHistorySchema],
 });
-
 
 const Product = mongoose.model('Product', productSchema);
 

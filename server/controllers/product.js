@@ -1,6 +1,6 @@
 // server/controllers/product.js
 const Product = require('../models/Product');
-const Search = require("../utils/libs/search.min");
+const Search = require('../utils/libs/search.min');
 
 exports.createProduct = async (req, res) => {
   try {
@@ -20,13 +20,12 @@ exports.createProduct = async (req, res) => {
     console.log('Product saved successfully'); // Log success
 
     res.status(201).json(savedProduct);
-    console.log(savedProduct)
+    console.log(savedProduct);
   } catch (error) {
     console.error('Error creating product:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -52,7 +51,7 @@ exports.placeBid = async (req, res) => {
 
     // Add the bid to the bid history
     product.bidHistory.push({ bidderName, bidAmount });
-    
+
     // Save the updated product
     await product.save();
     console.log('Bid placed successfully:', { bidderName, bidAmount });
@@ -77,7 +76,7 @@ exports.getBidHistory = async (req, res) => {
     // Extract bid history from the product
     const bidHistory = product.bidHistory;
 
-    console.log('bid hisotry', Array.isArray(product.bidHistory))
+    console.log('bid hisotry', Array.isArray(product.bidHistory));
     res.status(200).json(bidHistory);
   } catch (error) {
     console.error('Error fetching bid history:', error);
@@ -117,7 +116,12 @@ exports.updateProduct = async (req, res) => {
     // Save the updated product
     await product.save();
 
-    res.status(200).json({ message: 'Product updated successfully', updatedProduct: product });
+    res
+      .status(200)
+      .json({
+        message: 'Product updated successfully',
+        updatedProduct: product,
+      });
   } catch (error) {
     console.error('Error updating product:', error);
     res.status(500).json({ error: 'Internal Server Error' });

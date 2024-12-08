@@ -19,15 +19,21 @@ function App() {
           <Routes>
             <Route path="/" element={<AuctionLandingPage />} />
             <Route path="/auction-platform" element={<AuctionInterface />} />
-            <Route path="/place-bid/:minBidAmount/:description/:productId/:startingBid"  element={<PlaceBid />} />
+            <Route
+              path="/place-bid/:minBidAmount/:description/:productId/:startingBid"
+              element={<PlaceBid />}
+            />
             <Route path="/seller-platform" element={<SellerInterface />} />
-            <Route path="/check-bid-history/:productId" element={<CheckBidPage />} />
+            <Route
+              path="/check-bid-history/:productId"
+              element={<CheckBidPage />}
+            />
             <Route path="/product-form" element={<ProductForm />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/inventory" element={<Inventory />} />
           </Routes>
         </Router>
-        </AuthProvider>
+      </AuthProvider>
     </div>
   );
 }

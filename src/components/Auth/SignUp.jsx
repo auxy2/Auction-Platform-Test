@@ -1,19 +1,26 @@
 // src/components/Auth/Signup.js
 import React, { useState } from 'react';
-import { TextField, Button, Box, Typography, Alert, AlertTitle } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Alert,
+  AlertTitle,
+} from '@mui/material';
 import { useAuth } from '../../AuthContext';
 
 const Signup = ({ selectedRole, onClose }) => {
   const { signup } = useAuth();
 
   const [formData, setFormData] = useState({
-    username:'',
+    username: '',
     email: '',
     password: '',
   });
 
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false); 
+  const [success, setSuccess] = useState(false);
   const { username, email, password } = formData;
 
   const handleChange = (e) => {
@@ -44,14 +51,13 @@ const Signup = ({ selectedRole, onClose }) => {
         body: JSON.stringify({ ...formData, role: selectedRole }),
       });
 
-      console.log('response is: ', selectedRole, "response", response.data);
-
+      console.log('response is: ', selectedRole, 'response', response.data);
 
       if (response.ok) {
         // Registration successful, close the dialog
         const responseData = await response.json();
         const { role } = responseData;
-        console.log("responseOk", responseData)
+        console.log('responseOk', responseData);
         signup(role);
         setError(''); // Clear any previous error
         setSuccess(true);
@@ -62,8 +68,13 @@ const Signup = ({ selectedRole, onClose }) => {
         // Handle registration failure, show an error message or redirect to an error page
         const errorData = await response.json();
         setError(errorData.error || 'Signup failed.');
-        setSuccess(false)
-        console.error('Signup failed:', errorData, "Message: ", errorData.messgae);
+        setSuccess(false);
+        console.error(
+          'Signup failed:',
+          errorData,
+          'Message: ',
+          errorData.messgae
+        );
         setAlertOpen(true);
       }
     } catch (error) {
@@ -75,66 +86,72 @@ const Signup = ({ selectedRole, onClose }) => {
   };
 
   return (
-  <Box sx={{padding:5, textAlign:'center'}}>
-      <Typography variant='h2' color='black'>SingUp</Typography>
-    <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        id="name"
-        label="Username"
-        name="username"
-        autoComplete="name"
-        autoFocus
-        value={username}
-        onChange={handleChange}
-      />
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        id="email"
-        label="Email Address"
-        name="email"
-        autoComplete="email"
-        value={email}
-        onChange={handleChange}
-      />
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        name="password"
-        label="Password"
-        type="password"
-        id="password"
-        autoComplete="new-password"
-        value={password}
-        onChange={handleChange}
-      />
-      <Button type="submit" size= "large" variant="contained" sx={{ mt: 3, mb: 2 }}>
-        Sign Up
-      </Button>
+    <Box sx={{ padding: 5, textAlign: 'center' }}>
+      <Typography variant="h2" color="black">
+        SingUp
+      </Typography>
+      <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="name"
+          label="Username"
+          name="username"
+          autoComplete="name"
+          autoFocus
+          value={username}
+          onChange={handleChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          value={email}
+          onChange={handleChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="new-password"
+          value={password}
+          onChange={handleChange}
+        />
+        <Button
+          type="submit"
+          size="large"
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Sign Up
+        </Button>
 
-      {success && (
-        <Alert severity="success" onClose={handleSuccessClose}>
-          <AlertTitle>Success</AlertTitle>
-          Signup successful! {/* You can customize this message */}
-        </Alert>
-      )}
+        {success && (
+          <Alert severity="success" onClose={handleSuccessClose}>
+            <AlertTitle>Success</AlertTitle>
+            Signup successful! {/* You can customize this message */}
+          </Alert>
+        )}
 
-
-      {error && (
-        <Alert severity="error" onClose={handleAlertClose}>
-          <AlertTitle>Error</AlertTitle>
-          {error}
-        </Alert>
-      )}
-    </form>
+        {error && (
+          <Alert severity="error" onClose={handleAlertClose}>
+            <AlertTitle>Error</AlertTitle>
+            {error}
+          </Alert>
+        )}
+      </form>
     </Box>
   );
 };

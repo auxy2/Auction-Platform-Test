@@ -2,20 +2,20 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const authMiddleware = require('../middleware/auth')
+const authMiddleware = require('../middleware/auth');
 const productController = require('../controllers/product');
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads/');
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + '-' + file.originalname);
-    },
-  });
-  
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  },
+});
+
 const upload = multer({ storage: storage });
-  
+
 router.post('/create', upload.single('image'), productController.createProduct);
 
 router.get('/getAll', productController.getAllProducts);

@@ -10,7 +10,9 @@ router.post(
   [
     check('username').not().isEmpty().withMessage('Username is required'),
     check('email').isEmail().withMessage('Invalid email'),
-    check('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+    check('password')
+      .isLength({ min: 6 })
+      .withMessage('Password must be at least 6 characters long'),
   ],
   authController.signup
 );
@@ -20,7 +22,9 @@ router.post(
   '/login',
   [
     check('email').isEmail().withMessage('Invalid email'),
-    check('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+    check('password')
+      .isLength({ min: 6 })
+      .withMessage('Password must be at least 6 characters long'),
   ],
   authController.login
 );

@@ -31,6 +31,7 @@
     "mui": "^0.0.1",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.7",
+    "prettier": "^3.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
@@ -58,7 +59,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [

@@ -1,9 +1,16 @@
-import { Paper, TextField, Button, Typography, List, ListItem, ListItemText } from '@mui/material';
+import {
+  Paper,
+  TextField,
+  Button,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 
 const Chat = () => {
-
   useEffect(() => {
     // Set the data-route attribute to 'auction' on component mount
     document.body.setAttribute('data-route', 'chat');
@@ -13,12 +20,12 @@ const Chat = () => {
       document.body.removeAttribute('data-route');
     };
   }, []);
-  
+
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [socket, setSocket] = useState(null);
   // const authToken = document.cookie.replace(/(?:(?:^|.*;\s*)authToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
-  
+
   useEffect(() => {
     // Connect to the Socket.IO server
     const socketInstance = io('http://localhost:9000'); // Replace with your server URL
@@ -43,7 +50,8 @@ const Chat = () => {
           return [...prevMessages, message];
         }
         return prevMessages;
-      }); });
+      });
+    });
     // Cleanup event listeners on component unmount
     return () => {
       socket.off('message');
@@ -52,29 +60,47 @@ const Chat = () => {
 
   const sendMessage = () => {
     if (socket && newMessage.trim() !== '') {
-    const newMessageObject = {
-      text: newMessage,
-      sent: true, // Add this property to mark the message as sent
-    };
+      const newMessageObject = {
+        text: newMessage,
+        sent: true, // Add this property to mark the message as sent
+      };
 
-    socket.emit('sendMessage', newMessageObject);
-    setMessages((prevMessages) => [...prevMessages, newMessageObject]);
-    setNewMessage('');
-    console.log('message sent successfully');
-  }
-};
+      socket.emit('sendMessage', newMessageObject);
+      setMessages((prevMessages) => [...prevMessages, newMessageObject]);
+      setNewMessage('');
+      console.log('message sent successfully');
+    }
+  };
 
   return (
-    <Paper elevation={5} style={{backgroundColor:'rgba(11,25,190,0.5)',textAlign:'center', display: 'flex', flexDirection: 'column', height: '70vh', padding: '16px' }}>
+    <Paper
+      elevation={5}
+      style={{
+        backgroundColor: 'rgba(11,25,190,0.5)',
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '70vh',
+        padding: '16px',
+      }}
+    >
       <Typography variant="h3" align="center" gutterBottom>
         <strong>Chat Room</strong>
       </Typography>
-      <List style={{ overflowY: 'auto', flexGrow: 1}}>
+      <List style={{ overflowY: 'auto', flexGrow: 1 }}>
         {messages.map((message, index) => (
-          <ListItem key={index} style={{textAlign: message.sent ? 'left' : 'right',}}>
+          <ListItem
+            key={index}
+            style={{ textAlign: message.sent ? 'left' : 'right' }}
+          >
             <ListItemText
               primary={message.text}
-              style={{ backgroundColor: message.sent ? '#3f51b5' : '#f1f0f0', padding: '8px', borderRadius: '8px',color: message.sent ? 'white' : 'black', }}
+              style={{
+                backgroundColor: message.sent ? '#3f51b5' : '#f1f0f0',
+                padding: '8px',
+                borderRadius: '8px',
+                color: message.sent ? 'white' : 'black',
+              }}
             />
           </ListItem>
         ))}
