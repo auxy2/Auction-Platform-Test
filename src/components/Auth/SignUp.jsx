@@ -43,13 +43,14 @@ const Signup = ({ selectedRole, onClose }) => {
         body: JSON.stringify({ ...formData, role: selectedRole }),
       });
 
-      // console.log('response is: ', selectedRole)
+      console.log('response is: ', selectedRole, "response", response.data);
+
 
       if (response.ok) {
         // Registration successful, close the dialog
         const responseData = await response.json();
         const { role } = responseData;
-        console.log(responseData)
+        console.log("responseOk", responseData)
         signup(role);
         setSuccess(true);
         // onClose();

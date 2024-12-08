@@ -3,17 +3,24 @@ const express = require('express');
 const connectDB = require('./server/config/db');
 const cors = require('cors');
 const http = require('http');
+const dotenv = require("dotenv")
 const socketIO = require('socket.io');
 const productRoutes = require('./server/routers/productRoutes');
 const authRoutes = require('./server/routers/authRoutes');
 const sellerRoutes = require('./server/routers/sellerRoutes');
 const authMiddleware = require('./server/middleware/auth');
 
-require('dotenv').config();
+// dotenv.config();
 
+// server/app.js or server.js
+require('dotenv').config({ path: './server/.env' });
+
+
+console.log(process.env);
 const app = express();
 const server = http.createServer(app);
 
+console.log("Modules imported");
 // Connect to MongoDB
 connectDB();
 
@@ -22,9 +29,12 @@ const corsOptions = {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // Enable credentials (cookies, HTTP authentication) cross-origin
     optionsSuccessStatus: 204, // Respond with a 204 status for preflight requests
+    allowedHeaders: ['Content-Type'], // Allow specific headers
 };
 
 // Middleware
+
+
 app.use(express.json());
 
 //use cors
@@ -33,7 +43,18 @@ app.use(cors(corsOptions))
 // Serve static files from the 'uploads' directory
 app.use('/uploads', express.static('uploads'));
 
+console.log("Middlewares applied.");
 // Routes
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "Successfull",
+    message: "Hello from Auction platform"
+  });
+});
+
+console.log("Routes configured.");
+
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/seller', sellerRoutes);
@@ -42,10 +63,12 @@ const PORT = process.env.PORT || 5000;
 const io = socketIO(server, {
     cors: {
         origin: 'http://localhost:3000',
-        methods: ['GET', 'POST'],
+        methods: ['GET', 'POST', "OPTIONS"],
+        allowedHeaders: ['Content-Type'],
+        credentials: true,
+        
     },
 });
-
 
 io.on('connection', (socket) => {
     console.log('New socket connection');
