@@ -8,6 +8,8 @@ exports.createProduct = async (req, res) => {
     const { name, description, startingBid, minBidAmount } = req.body;
     const imagePath = req.file ? req.file.path : null;
     console.log('request recieved', req.body);
+
+    
     const newProduct = new Product({
       name,
       description,
