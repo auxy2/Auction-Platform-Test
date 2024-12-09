@@ -84,9 +84,6 @@ const Inventory = () => {
     }
   };
 
-  // const minBidValue= product[0].minBidAmount;
-  // console.log('minimum bid valule is ', minBidValue)
-
   return (
     <Container sx={{ mt: 11, mb: 2 }}>
       <Grid container spacing={2}>
@@ -95,8 +92,13 @@ const Inventory = () => {
             <Card>
               <CardMedia
                 component="img"
-                image={`http://localhost:9000/${product.imageUrl}`}
+                // Check if the image URL is an external link (Cloudinary URL)
+                image={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:9000/${product.imageUrl}`}
                 alt={product.title}
+                sx={{
+                  height: 200, // Set a fixed height for the image
+                  objectFit: 'cover', // Ensure the image covers the box without stretching
+                }}
               />
               <CardContent>
                 <Typography variant="h5" gutterBottom>
@@ -110,14 +112,12 @@ const Inventory = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                {/* <Link component={RouterLink} to={`/place-bid/${product.minBidAmount}/${encodeURIComponent(product.description)}/${product._id}/${product.startingBid}`}> */}
                 <Button
                   variant="outlined"
                   onClick={() => handleUpdateClick(product)}
                 >
                   Modify Product
                 </Button>
-                {/* </Link> */}
               </CardActions>
             </Card>
           </Grid>

@@ -25,7 +25,7 @@ const upload = multer({ storage: storage });
 
 const router = express.Router();
 
-router.use(authController.protect);
+// router.use(authController.protect);
 router.post('/create', upload.single('image'), productController.createProduct);
 
 router.get('/getAll', productController.getAllProducts);
