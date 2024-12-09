@@ -46,25 +46,26 @@ const CardDisplay = () => {
     fetchData();
   }, []);
 
-  // const minBidValue= product[0].minBidAmount;
-  // console.log('minimum bid valule is ', minBidValue)
-
   return (
     <Container sx={{ mt: 11, mb: 2 }}>
       <Grid container spacing={2}>
         {product.map((product, index) => (
           <Grid item xs={12} sm={6} md={4} key={product._id}>
             <Card>
+              {/* Image inside the Card */}
               <CardMedia
                 component="img"
-                image={`http://localhost:9000/${product.imageUrl}`}
-                alt={product.title}
+                image={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:9000/${product.imageUrl}`}
+                alt={product.name}
+                sx={{
+                  height: 200, // Set a fixed height for the image
+                  objectFit: 'cover', // Ensure the image covers the box without stretching
+                }}
               />
               <CardContent>
                 <Typography variant="h5" gutterBottom>
                   {product.name}
                 </Typography>
-                {/* <Typography variant="body2">{product.description}</Typography> */}
                 <Typography variant="body2">
                   Starting Price of Product: ${product.startingBid}{' '}
                 </Typography>
