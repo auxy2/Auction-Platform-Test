@@ -9,7 +9,7 @@ import {
   Paper,
 } from '@mui/material';
 import { useParams } from 'react-router';
-import { formatDateTime } from '../../utills/formatDate';
+import { formatDateTime } from '../../utills/formatDate.js';
 
 const CheckBidPage = () => {
   const { productId } = useParams();

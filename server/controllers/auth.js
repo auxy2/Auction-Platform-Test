@@ -146,7 +146,7 @@ exports.protect = async (req, res, next) => {
     };
     return next();
   } catch (e) {
-    return error(res, e?.statusCode || 500, e);
+    return res.status(500).json({error: "Something Went Wrong Please Login Again"});
   }
 };
 
