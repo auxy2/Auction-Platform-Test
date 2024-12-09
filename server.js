@@ -22,7 +22,7 @@ const server = http.createServer(app);
 connectDB();
 
 const corsOptions = {
-  origin: '*', // Replace with your frontend's URL
+  origin: 'http://localhost:3000', // Replace with your frontend's URL
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // Enable credentials (cookies, HTTP authentication) cross-origin
   optionsSuccessStatus: 204, // Respond with a 204 status for preflight requests
@@ -34,7 +34,7 @@ const corsOptions = {
 app.use(express.json());
 
 //use cors
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Serve static files from the 'uploads' directory
 app.use('/uploads', express.static('uploads'));
@@ -55,7 +55,7 @@ app.use('/api/seller', sellerRoutes);
 const PORT = process.env.SERVER_PORT || 5000;
 const io = socketIO(server, {
   cors: {
-    origin: '*',
+    origin: 'http://localhost:3000',
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type'],
     credentials: true,
