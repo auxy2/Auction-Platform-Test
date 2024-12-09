@@ -5,8 +5,8 @@
  **	@Filename:				index.js
  ******************************************************************************/
 
-import { ethers } from 'ethers';
-import { Provider } from 'ethcall';
+// import { ethers } from 'ethers';
+// import { Provider } from 'ethcall';
 
 export const toAddress = (address) => {
   if (!address) {
@@ -22,7 +22,7 @@ export const toAddress = (address) => {
   }
 };
 
-export const bigNumber = ethers.BigNumber;
+// export const bigNumber = ethers.BigNumber;
 
 export function truncateAddress(address) {
   if (address !== undefined) {
@@ -43,6 +43,9 @@ export function formatAmount(amount, decimals = 2) {
     maximumFractionDigits: decimals,
   }).format(amount);
 }
+
+
+
 
 export function formatValue(value, decimals = 2) {
   return new Intl.NumberFormat('en-US', {

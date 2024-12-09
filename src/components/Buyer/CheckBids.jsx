@@ -9,6 +9,7 @@ import {
   Paper,
 } from '@mui/material';
 import { useParams } from 'react-router';
+import { formatDateTime } from '../../utils';
 
 const CheckBidPage = () => {
   const { productId } = useParams();
@@ -33,8 +34,16 @@ const CheckBidPage = () => {
         ); // Replace with your API endpoint
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
-          setBidData(data);
+
+          const formattedHistory = data.map(item => ({
+            ...item,
+            bidderName: item.bidderName,
+            bidAmount: item.bidAmount,
+            bidTimestamp: formatDateTime(item.bidTimestamp),
+          }));
+          
+          console.log(formattedHistory);
+          setBidData(formattedHistory);
         } else {
           console.error('Failed to fetch bid history data');
         }

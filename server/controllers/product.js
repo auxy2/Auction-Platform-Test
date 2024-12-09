@@ -2,6 +2,7 @@
 const  cloudinary  = require('../helpers/cloudinary');
 const Product = require('../models/Product');
 const fs = require("fs");
+const { formatDateTime } = require('../utils');
 // const Search = require('../utils/libs/search.min');
 
 exports.createProduct = async (req, res) => {
@@ -81,11 +82,7 @@ exports.getBidHistory = async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    // Extract bid history from the product
-    const bidHistory = product.bidHistory;
-
-    console.log('bid hisotry', Array.isArray(product.bidHistory));
-    res.status(200).json(bidHistory);
+    res.status(200).json(product.bidHistory);
   } catch (error) {
     console.error('Error fetching bid history:', error);
     res.status(500).json({ message: 'Internal Server Error' });
