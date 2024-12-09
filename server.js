@@ -21,13 +21,13 @@ const server = http.createServer(app);
 // Connect to MongoDB
 connectDB();
 
-// const corsOptions = {
-//   origin: 'https://auction-platform-test-auxy2s-projects.vercel.app/', // Replace with your frontend's URL
-//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//   credentials: true, // Enable credentials (cookies, HTTP authentication) cross-origin
-//   optionsSuccessStatus: 204, // Respond with a 204 status for preflight requests
-//   allowedHeaders: ['Content-Type'], // Allow specific headers
-// };
+const corsOptions = {
+  origin: '*', // Replace with your frontend's URL
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Enable credentials (cookies, HTTP authentication) cross-origin
+  optionsSuccessStatus: 204, // Respond with a 204 status for preflight requests
+  allowedHeaders: ['Content-Type'], // Allow specific headers
+};
 
 // Middleware
 
@@ -55,7 +55,7 @@ app.use('/api/seller', sellerRoutes);
 const PORT = process.env.SERVER_PORT || 5000;
 const io = socketIO(server, {
   cors: {
-    origin: 'https://auction-platform-test-auxy2s-projects.vercel.app',
+    origin: '*',
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type'],
     credentials: true,
