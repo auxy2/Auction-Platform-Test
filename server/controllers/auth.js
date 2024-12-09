@@ -1,5 +1,5 @@
 // server/controllers/auth.js
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { validationResult } = require('express-validator');
@@ -13,6 +13,7 @@ exports.signup = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
+    
     // Extract user data from request body
     const { username, email, password, role } = req.body;
 
@@ -106,6 +107,46 @@ exports.login = async (req, res) => {
   } catch (error) {
     console.error('Error logging in:', error);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+exports.protect = async (req, res, next) => {
+  try {
+    let jwtToken;
+
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('AUCTIONS_PLATFORMS')
+    )
+      jwtToken = req.headers.authorization.split(' ')[1];
+    res.cookei = jwtToken;
+
+    if (!jwtToken) throw new UnauthenticatedError('You are not login yet');
+    const decoded = await promisify(jwt.verify)(
+      jwtToken,
+      'thi you si sth esimp made lep for m  are  secrete eterces'
+    );
+
+
+      const currentUser = await User.findById(decoded.Id);
+
+    console.log(currentUser);
+
+    if (!currentUser){
+      return res.status(401).json({error: 'Authentication Error: Please loging again'})
+    }
+
+
+    req.user = currentUser;
+
+    req.locals = {
+      ...req.locals,
+      user: currentUser,
+    };
+    return next();
+  } catch (e) {
+    return error(res, e?.statusCode || 500, e);
   }
 };
 

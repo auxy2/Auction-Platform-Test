@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 // const authMiddleware = require('../middleware/auth');
 const productController = require('../controllers/product');
+const authController = require("../controllers/auth")
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -24,7 +25,7 @@ const upload = multer({ storage: storage });
 
 const router = express.Router();
 
-
+router.use(authController.protect);
 router.post('/create', upload.single('image'), productController.createProduct);
 
 router.get('/getAll', productController.getAllProducts);

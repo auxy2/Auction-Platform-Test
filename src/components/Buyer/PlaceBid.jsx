@@ -61,11 +61,11 @@ export const PlaceBid = () => {
   const startingBidNumber = parseFloat(startingBid);
   useEffect(() => {
     const parsedBidAmount = parseFloat(bidAmount);
-    const calculatedValue =
-      startingBidNumber + (isNaN(parsedBidAmount) ? 0 : parsedBidAmount);
-    setCurrentValue(calculatedValue);
+    const calculatedValue = isNaN(parsedBidAmount) ? '' : parsedBidAmount;
+    setCurrentValue(calculatedValue); 
     localStorage.setItem('yourVariable', JSON.stringify(calculatedValue));
-  }, [bidAmount, startingBidNumber]);
+  }, [bidAmount]);
+  
 
   const handleConfirmationClose = () => {
     setIsConfirmationOpen(false);
