@@ -140,7 +140,7 @@ function AuctionLandingPage() {
           </Stack>
 
           <Typography sx={{ marginTop: 'calc(10% + 60px)' }}>
-            Project is made by Daniel Peter.
+            Project is made by Daniel Peter, Modified by Isihaq Abdullahi.
           </Typography>
         </Box>
       </>

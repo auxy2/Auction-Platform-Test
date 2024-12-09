@@ -58,10 +58,8 @@ exports.placeBid = async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    // Add the bid to the bid history
     product.bidHistory.push({ bidderName, bidAmount });
 
-    // Save the updated product
     await product.save();
     console.log('Bid placed successfully:', { bidderName, bidAmount });
 

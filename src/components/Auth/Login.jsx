@@ -1,4 +1,3 @@
-// Login.js
 import React, { useState } from 'react';
 import {
   TextField,
@@ -26,7 +25,9 @@ const Login = ({ selectedRole }) => {
 
   const handleAlertClose = () => {
     setAlertOpen(false);
+    setError(''); // Clear the error message
   };
+
   const { email, password } = formData;
 
   const handleChange = (e) => {
@@ -37,15 +38,6 @@ const Login = ({ selectedRole }) => {
     e.preventDefault();
 
     try {
-      // Make a request to your backend for authentication
-      // const response = await fetch('http://localhost:9000/api/auth/login', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ ...formData, role: selectedRole }),
-      // });
-
       const response = await fetch('http://localhost:9000/api/auth/login', {
         method: 'POST',
         headers: {
@@ -56,11 +48,8 @@ const Login = ({ selectedRole }) => {
 
       console.log('role is', selectedRole);
       if (response.ok) {
-        // login();
-        // Authentication successful, close the dialog
         const { token, userId, role } = await response.json();
         login(token, userId, role);
-        // document.cookie = `authToken=${token}; Secure; HttpOnly; SameSite=Strict; Path=/`;
         Cookies.set('token', token, { expires: 7, secure: true });
         console.log('tokensaved', token);
 
@@ -71,14 +60,14 @@ const Login = ({ selectedRole }) => {
           navigate('/seller-platform'); // Change to your seller dashboard route
         }
       } else {
-        // Handle authentication failure, show an error message or redirect to an error page
         const errorData = await response.json();
         console.error('Login failed!', errorData);
         setError(errorData.error || 'Login failed.');
-        setAlertOpen(true);
+        setAlertOpen(true); // Show the alert
       }
     } catch (error) {
-      setAlertOpen(true);
+      setError('An unexpected error occurred. Please try again.');
+      setAlertOpen(true); // Show the alert
       console.error('Error during login:', error);
     }
   };
@@ -123,8 +112,12 @@ const Login = ({ selectedRole }) => {
         >
           Login
         </Button>
-        {error && (
-          <Alert severity="error" onClose={handleAlertClose} open={alertOpen}>
+        {alertOpen && (
+          <Alert
+            severity="error"
+            onClose={handleAlertClose}
+            sx={{ mt: 2 }}
+          >
             <AlertTitle>Error</AlertTitle>
             {error}
           </Alert>
