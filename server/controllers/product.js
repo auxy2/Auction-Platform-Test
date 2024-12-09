@@ -1,27 +1,33 @@
 // // server/controllers/product.js
+const  cloudinary  = require('../helpers/cloudinary');
 const Product = require('../models/Product');
+const fs = require("fs");
 // const Search = require('../utils/libs/search.min');
 
 exports.createProduct = async (req, res) => {
   try {
     // const imagePath = req.file.path;
+    let cloudinaryResponse;
     const { name, description, startingBid, minBidAmount } = req.body;
     const imagePath = req.file ? req.file.path : null;
     console.log('request recieved', req.body);
 
-    
+    if(imagePath){
+     cloudinaryResponse = await cloudinary.uploader.upload(imagePath);
+    }
     const newProduct = new Product({
       name,
       description,
       startingBid,
       minBidAmount,
-      imageUrl: imagePath,
+      imageUrl: cloudinaryResponse.secure_url,
       // userId: req.user.email,
     });
     const savedProduct = await newProduct.save();
     console.log('Product saved successfully'); // Log success
 
     res.status(201).json(savedProduct);
+    fs.unlinkSync(req.file.path);
     console.log(savedProduct);
   } catch (error) {
     console.error('Error creating product:', error);
